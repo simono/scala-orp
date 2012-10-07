@@ -1,0 +1,4 @@
+<plugin>
+    <name>orp</name>
+    <classname>orp.plugin.OrpPlugin</classname>
+</plugin>
