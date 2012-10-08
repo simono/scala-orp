@@ -22,7 +22,7 @@ import Keys._
  * @author Simon Olofsson {@literal simon@olofsson.de}
  */
 object BuildSettings {
-  val buildOrganization = "de.olofsson"
+  val buildOrganization = "orp"
   val buildScalaVersion = "2.9.2"
   val buildVersion = "1.0"
 
