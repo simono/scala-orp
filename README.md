@@ -32,7 +32,7 @@ describes the required plugins.
 
 _bin_: contains executables and scripts
 
-_orp-framework_: project for the ORP framework, contains definitions that are
+_orp-framework_: project for the ORP Framework, contains definitions that are
 needed in client code and in the compiler plugin
 
 _orp-plugin_: a plugin for the Scala compiler (_scalac_) that generates the
