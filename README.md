@@ -14,7 +14,7 @@
     [Scala](http://confluence.jetbrains.net/display/SCA/Scala+Plugin+for+IntelliJ+IDEA)
     and [SBT](https://github.com/orfjackal/idea-sbt-plugin/wiki) plugins and
     configure them
-  * select `intellij/orp.ipr` in the "Open Project" dialog
+  * select _intellij/orp.ipr_ in the _Open Project_ dialog
 * Eclipse:
   * install the [Scala](http://scala-ide.org) and
     [SBT](https://github.com/scalastuff/esbt) plugins
@@ -25,22 +25,22 @@ To run the plugin just execute: `bin/run-plugin.sh`
 
 ## Directory layout
 
-The main ORP project is aggregating three modules (`orp-framework`,
-`orp-plugin` and `orp-examples`). The build settings, dependencies and build
-instructions are described in `project/Build.scala`. `project/plugins.sbt`
+The main ORP project is aggregating three modules (_orp-framework_,
+_orp-plugin_ and _orp-examples_). The build settings, dependencies and build
+instructions are described in _project/Build.scala_. _project/plugins.sbt_
 describes the required plugins.
 
-`bin`: contains executables and scripts
+_bin_: contains executables and scripts
 
-`orp-framework`: project for the ORP framework, contains definitions that are
+_orp-framework_: project for the ORP framework, contains definitions that are
 needed in client code and in the compiler plugin
 
-`orp-plugin`: a plugin for the Scala compiler (`scalac`) that generates the
+_orp-plugin_: a plugin for the Scala compiler (_scalac_) that generates the
 required code
 
-`orp-examples`: examples that use the `orp-framework` and the `orp-plugin`
+_orp-examples_: examples that use the _orp-framework_ and the _orp-plugin_
 
-`target` folders: these folders are excluded from version control and contain
+_target_ folders: these folders are excluded from version control and contain
 class-files and jars that sbt creates
 
 # License
