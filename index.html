@@ -41,7 +41,7 @@
 </ul><p><a href="https://powerjava.googlecode.com/files/10152.SteimannFriedrich.Paper.pdf"><em>"Towards Object-Relational Programming"</em></a> is written in English and explains the basic ideas:</p>
 
 <blockquote>
-<p>While the relational data model and its commercial implementations have undergone considerable extensions to become object-relational, comparable advances from mainstream object-oriented programming languages seem to be rare. Complementing recent efforts to integrate SQL-like querying of memory-based collections into languages such as C# and Java, we specify a gentle extension of the object-oriented programming model with bidirectional relationships that are uniform across all uses. To substantiate our object-relational programming model, we sketch two concrete implementations, one in Smalltalk and one in Scala. Perhaps most remarkable is the fact that our extension of objects does not introduce relationships as a first class language construct.</p>
+<p>While the relational data model and its commercial implementations have undergone considerable extensions to become object-relational, comparable advances from mainstream object-oriented programming languages seem to be rare. Complementing recent efforts to integrate SQL-like querying of memory-based collections into languages such as C# and Java, we specify a gentle extension of the object-oriented programming model with bidirectional relationships that are uniform across all uses. [...] Perhaps most remarkable is the fact that our extension of objects does not introduce relationships as a first class language construct.</p>
 </blockquote>
 
 <p>This Project implements an annotation-based extension of Scala, that uses a Compiler Plugin to transform the Source Code. The API is straightforward and explained below.</p>
@@ -52,13 +52,13 @@
 
 <ul>
 <li>
-<code>@relationship</code>: Marks an <code>object</code> as Relationship with two Roles</li>
+<code>@relationship</code>: Marks an Object as <em>Relationship</em> with two Roles</li>
 <li>
-<code>@role(multiplicity = Many)</code>: A Role in a Relationship, with Multiplicity <code>One</code> or <code>Many</code> (the default)</li>
+<code>@role(multiplicity = Many)</code>: A <em>Role</em> in a Relationship, with Multiplicity <em>One</em> or <em>Many</em> (the default)</li>
 <li>
-<code>@plays(roles*)</code>: A Class can play one or more Roles</li>
+<code>@plays(roles*)</code>: A Class can <em>play</em> one or more Roles</li>
 <li>
-<code>@playsFor(role, forClass)</code>: In some cases a Class plays a Role only for <em>one</em> other Class</li>
+<code>@playsFor(role, forClass)</code>: In some cases a Class <em>plays</em> a Role only <em>for one</em> other Class</li>
 </ul><p>A Role can be selected with <code>role[T]</code>, just like you select classes with <code>classOf[T]</code>.</p>
 
 <h4>Example for plays</h4>
@@ -74,7 +74,7 @@
 <span class="o">}</span>
 </pre></div>
 
-<p>Now the Class <code>MyCustomer</code> plays the Role <code>Customer</code> and the Class <code>MyContract</code> plays <code>Contract</code>:</p>
+<p>Now the Class MyCustomer plays the Role Customer and the Class MyContract plays Contract:</p>
 
 <div class="highlight"><pre><span class="k">import</span> <span class="nn">orp.api._</span>
 
@@ -98,7 +98,7 @@
 
 <h4>Example for playsFor</h4>
 
-<p>To define a part-whole relationship with additional methods:</p>
+<p>Defining a part-whole relationship with additional methods:</p>
 
 <div class="highlight"><pre><span class="k">import</span> <span class="nn">orp.api._</span>
 
@@ -117,7 +117,7 @@
 <span class="o">}</span>
 </pre></div>
 
-<p>This relationship is very wide, a Class that plays <code>Part</code> is typically playing this for another Class. A <code>Car</code> could play the <code>Whole</code> Role, but not for every <code>Part</code>, just for Parts of Class <code>Engine</code>. This is where the playsFor-annotation is needed. <code>Engine</code> plays <code>Part</code> for <code>Car</code> and <code>Car</code> plays <code>Whole</code> for <code>Engine</code>:</p>
+<p>This relationship is very wide, a Class that plays Part is typically playing this for another Class. A Car could play the Role Whole, but not for every Part, just for Parts of Class Engine. This is where the playsFor-annotation is needed. Engine plays Part for Car and Car plays Whole for Engine:</p>
 
 <div class="highlight"><pre><span class="k">import</span> <span class="nn">orp.api._</span>
 
@@ -134,11 +134,12 @@
 
 <div class="highlight"><pre><span class="k">new</span> <span class="nc">Car</span><span class="o">().</span><span class="n">addPart</span><span class="o">(</span><span class="k">new</span> <span class="nc">Engine</span><span class="o">)</span> <span class="c1">// Works</span>
 <span class="k">new</span> <span class="nc">Car</span><span class="o">().</span><span class="n">addPart</span><span class="o">(</span><span class="k">new</span> <span class="nc">OtherPart</span><span class="o">)</span> <span class="c1">// Doesn't Work</span>
+<span class="k">new</span> <span class="nc">Car</span><span class="o">().</span><span class="n">addEngine</span><span class="o">(</span><span class="k">new</span> <span class="nc">Engine</span><span class="o">)</span> <span class="c1">// This also Works, but only for playsFor-Relations</span>
 </pre></div>
 
 <h3>Authors and License</h3>
 
-<p>This project is maintained by <a href="https://github.com/simono" class="user-mention">@simono</a> and licensed under the Apache 2 license. For Setup instructions and License details, see the <a href="https://github.com/simono/scala-orp">Project page</a>. If you have any questions or comments, please contact <a href="https://github.com/simono" class="user-mention">@simono</a>.</p>
+<p>This project is maintained by <a href="http://olofsson.de">Simon Olofsson</a> and licensed under the Apache 2 license. For Setup instructions and License details, see the <a href="https://github.com/simono/scala-orp">Project page</a>. If you have any questions or comments, please contact <a href="https://github.com/simono" class="user-mention">@simono</a>.</p>
         </section>
 
         <footer>
