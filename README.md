@@ -5,9 +5,7 @@
 ## What you need
 
 * a recent version of Java
-* [sbt](https://github.com/harrah/xsbt) as build tool
-  * On OS X with Homebrew: `brew install sbt`
-  * [On Debian or Ubuntu](http://typesafe.com/stack/download#deb)
+* [sbt](http://www.scala-sbt.org) as build tool
 
 ## IDE setup
 
