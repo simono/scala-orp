@@ -16,6 +16,7 @@
 package orp
 
 import annotation.Annotation
+import reflect.{ClassTag, classTag}
 
 /**
  * Annotations for the ORP framework.
@@ -31,12 +32,12 @@ object api extends Enumeration {
 
   class role(multiplicity: multiplicity = Many) extends Annotation
 
-  class plays(roles: ClassManifest[_ <: RoleTrait]*) extends Annotation
+  class plays(roles: ClassTag[_ <: RoleTrait]*) extends Annotation
 
-  class playsFor(role: ClassManifest[_ <: RoleTrait], forClass: Class[_]) extends Annotation
+  class playsFor(role: ClassTag[_ <: RoleTrait], forClass: Class[_]) extends Annotation
 
   trait RoleTrait
 
-  def role[T <: RoleTrait : ClassManifest] = classManifest[T]
+  def role[T <: RoleTrait : ClassTag] = classTag[T]
 
 }
