@@ -15,8 +15,6 @@
  */
 package orp.plugin.components
 
-import annotation.Annotation
-import reflect.generic.Flags
 import tools.nsc.plugins.PluginComponent
 import tools.nsc.ast.TreeDSL
 import tools.nsc.transform.Transform
