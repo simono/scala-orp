@@ -102,7 +102,7 @@ private[components] trait OrpComponent extends PluginComponent with Transform wi
         }
       }
 
-      def isTrait(classDef: ClassDef) = classDef.mods.hasFlag(Flags.TRAIT)
+      def isTrait(classDef: ClassDef) = classDef.mods.hasFlag(Flag.TRAIT)
 
       def sameLastName(qOne: Tree, qTwo: Tree) = extract.lastName(qOne) == extract.lastName(qTwo)
 
@@ -235,7 +235,7 @@ private[components] trait OrpComponent extends PluginComponent with Transform wi
       }
 
       def roleTypeAbstract(roleName: Name) = {
-        TypeDef(Modifiers(Flags.DEFERRED), name.withRoleSuffix(roleName), Nil,
+        TypeDef(Modifiers(Flag.DEFERRED), name.withRoleSuffix(roleName), Nil,
           TypeBoundsTree(Ident(nme.ROOTPKG) DOT nme.scala_ DOT mkTypeName(tpnme.Nothing), Ident(mkTypeName(roleName))))
       }
 
@@ -244,11 +244,11 @@ private[components] trait OrpComponent extends PluginComponent with Transform wi
       }
 
       def relationshipClass(relationshipClassName: Name, impl: Template) = {
-        ClassDef(Modifiers(Flags.ABSTRACT), mkTypeName(relationshipClassName), Nil, impl)
+        ClassDef(Modifiers(Flag.ABSTRACT), mkTypeName(relationshipClassName), Nil, impl)
       }
 
       def othersVal(counterRoleName: Name) = {
-        ValDef(Modifiers(Flags.PRIVATE | Flags.LOCAL), name.othersVal(counterRoleName), TypeTree(),
+        ValDef(Modifiers(Flag.PRIVATE | Flag.LOCAL), name.othersVal(counterRoleName), TypeTree(),
           NEW(AppliedTypeTree(Ident(mkTypeName("ArrayBuffer")),
             List(Ident(name.withRoleSuffix(counterRoleName))))))
       }
@@ -381,7 +381,7 @@ private[components] trait OrpComponent extends PluginComponent with Transform wi
         })
       }
 
-      def roleClassModifiers(mods: Modifiers) = mods &~ Flags.INTERFACE
+      def roleClassModifiers(mods: Modifiers) = mods &~ Flag.INTERFACE
 
       def playsForRelationshipModule(relationshipModuleName: Name, parent: Tree, self: ValDef,
                                      body: List[Tree]) = {
@@ -390,7 +390,7 @@ private[components] trait OrpComponent extends PluginComponent with Transform wi
 
       def overrideIfNeeded(firstName: Name, secondName: Name): Modifiers = {
         if (name.decapitalize(firstName) == name.decapitalize(secondName)) {
-          Modifiers(Flags.OVERRIDE)
+          Modifiers(Flag.OVERRIDE)
         } else {
           NoMods
         }
@@ -449,7 +449,7 @@ private[components] trait OrpComponent extends PluginComponent with Transform wi
       }
 
       def roleClassWrapper(roleName: Name, parent: Tree, self: ValDef, body: List[Tree]) = {
-        ClassDef(Modifiers(Flags.TRAIT), mkTypeName(roleName), Nil, Template(List(parent), self, body))
+        ClassDef(Modifiers(Flag.TRAIT), mkTypeName(roleName), Nil, Template(List(parent), self, body))
       }
 
       private object name {
