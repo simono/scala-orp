@@ -73,8 +73,8 @@ class OrpComponentRelationship(val global: Global) extends OrpComponent {
 
     private def createRelationshipClass(relationshipModule: ModuleDef, roleFirst: ClassDef, roleSecond: ClassDef) = {
 
-      require(relationshipModule.exists(roleFirst ==))
-      require(relationshipModule.exists(roleSecond ==))
+      require(relationshipModule.exists(roleFirst == _))
+      require(relationshipModule.exists(roleSecond == _))
 
       val relationshipClassName = RelationshipClassPrefix + relationshipModule.name
 
