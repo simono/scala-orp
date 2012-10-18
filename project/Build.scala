@@ -30,7 +30,7 @@ object BuildSettings {
     organization := buildOrganization,
     scalaVersion := buildScalaVersion,
     version := buildVersion,
-    scalacOptions ++= Seq("-unchecked", "-deprecation"),
+    scalacOptions ++= Seq("-unchecked", "-deprecation", "-feature"),
     shellPrompt := {
       Project.extract(_).currentProject.id + "> "
     }
