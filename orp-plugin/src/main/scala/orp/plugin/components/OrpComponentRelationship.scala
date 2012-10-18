@@ -123,7 +123,7 @@ class OrpComponentRelationship(val global: Global) extends OrpComponent {
       copy.ClassDef(roleClass)(mods = create.roleClassModifiers(roleClass.mods), impl = impl)
     }
 
-    private def transformRelationshipModule(relationshipModule: ModuleDef, relationshipClassName: Name,
+    private def transformRelationshipModule(relationshipModule: ModuleDef, relationshipClassName: TypeName,
                                             roleFirstName: Name, roleSecondName: Name) = {
 
       def roleType(roleName: Name) = create.roleType(roleName, roleName)

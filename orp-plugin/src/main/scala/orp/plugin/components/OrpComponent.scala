@@ -105,7 +105,7 @@ private[components] trait OrpComponent extends PluginComponent with Transform wi
 
       def sameLastName(qOne: Tree, qTwo: Tree) = extract.lastName(qOne) == extract.lastName(qTwo)
 
-      def annotationValueName(annotation: Class[_ <: StaticAnnotation], value: Name)(mods: Modifiers) = {
+      def annotationValueName(annotation: Class[_ <: StaticAnnotation], value: TypeName)(mods: Modifiers) = {
         val values = extract.annotationValuesFlat(mods, annotation)
         assert(values.size <= 1)
         values.exists(extract.lastName(_) == value)
@@ -206,7 +206,7 @@ private[components] trait OrpComponent extends PluginComponent with Transform wi
 
       def initDef = DefDef(NoMods, nme.CONSTRUCTOR, Nil, Nil, TypeTree(), BLOCK(fn(zuper, nme.CONSTRUCTOR), EmptyTree))
 
-      def qualifierWithTypeName(qualifier: Tree, name: Name): Tree = {
+      def qualifierWithTypeName(qualifier: Tree, name: TypeName): Tree = {
         qualifier match {
           case _: Ident => Ident(name)
           case Select(qual, _) => Select(qual, name)
@@ -344,8 +344,8 @@ private[components] trait OrpComponent extends PluginComponent with Transform wi
         )
       }
 
-      def priActionDef(relationshipClassName: Name, counterRoleName: Name)
-                      (action: Name, op: Name, createRhs: Tree => Tree) = {
+      def priActionDef(relationshipClassName: TypeName, counterRoleName: Name)
+                      (action: TypeName, op: Name, createRhs: Tree => Tree) = {
 
         val counterRoleNameDecapitalized = name.decapitalize(counterRoleName)
 
@@ -379,7 +379,7 @@ private[components] trait OrpComponent extends PluginComponent with Transform wi
 
       def roleClassModifiers(mods: Modifiers) = mods &~ Flag.INTERFACE
 
-      def playsForRelationshipModule(relationshipModuleName: Name, parent: Tree, self: ValDef,
+      def playsForRelationshipModule(relationshipModuleName: TypeName, parent: Tree, self: ValDef,
                                      body: List[Tree]) = {
         ModuleDef(NoMods, relationshipModuleName, Template(List(parent), self, body))
       }
@@ -444,8 +444,8 @@ private[components] trait OrpComponent extends PluginComponent with Transform wi
           create.zuper DOT name.getDef(counterRoleName))
       }
 
-      def roleClassWrapper(roleName: TypeName, parent: Tree, self: ValDef, body: List[Tree]) = {
-        ClassDef(Modifiers(Flag.TRAIT), roleName, Nil, Template(List(parent), self, body))
+      def roleClassWrapper(roleName: Name, parent: Tree, self: ValDef, body: List[Tree]) = {
+        ClassDef(Modifiers(Flag.TRAIT), roleName.toTypeName, Nil, Template(List(parent), self, body))
       }
 
       private object name {
@@ -472,7 +472,7 @@ private[components] trait OrpComponent extends PluginComponent with Transform wi
           GetPrefix + capitalize(name) + PluralSuffix
         }
 
-        def priActionDef(actionName: Name, name: Name): TypeName = {
+        def priActionDef(actionName: TypeName, name: Name): TypeName = {
           PriPrefix + capitalize(actionName) + capitalize(name)
         }
 
