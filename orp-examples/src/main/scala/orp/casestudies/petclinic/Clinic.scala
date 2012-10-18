@@ -28,7 +28,8 @@ import java.text.SimpleDateFormat
  */
 object Clinic extends App {
 
-  implicit def String2Date(s: String) = new SimpleDateFormat("yyyy-MM-dd").parse(s)
+  import language.implicitConversions
+  implicit def stringToDate(s: String) = new SimpleDateFormat("yyyy-MM-dd").parse(s)
 
   val jeff = new Owner("Jeff", "Miller")
   val lassie = new Pet("1940-06-04", "Lassie")
