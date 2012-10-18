@@ -81,7 +81,7 @@ private[components] trait OrpComponent extends PluginComponent with Transform wi
 
     private def mkEqlOp(termName: TermName) = termName.append(nme.EQL)
 
-    val AddPrefix = nme.add_
+    val AddPrefix = "add"
     val NewPrefix = "new"
     val OldPrefix = "old"
     val RelationshipClassPrefix = "AC"
@@ -116,7 +116,7 @@ private[components] trait OrpComponent extends PluginComponent with Transform wi
 
       def annotationArgs(mods: Modifiers, annotation: Class[_ <: Annotation]): List[List[Tree]] = {
         mods.annotations collect {
-          case Apply(Select(New(Ident(name)), _), args) if name == mkTypeName(annotation.getSimpleName) => args
+          case Apply(Select(New(Ident(name: TypeName)), _), args) if name == annotation.getSimpleName => args
         }
       }
 
@@ -156,8 +156,8 @@ private[components] trait OrpComponent extends PluginComponent with Transform wi
 
       def lastName(qualifier: Tree) = {
         qualifier match {
-          case Ident(name) => name
-          case Select(_, name) => name
+          case Ident(name: TypeName) => name
+          case Select(_, name: TypeName) => name
           case x => abort("Unknown qualifier: " + qualifier)
         }
       }
@@ -195,7 +195,7 @@ private[components] trait OrpComponent extends PluginComponent with Transform wi
 
       def zuper = Super(thiz, emptyTypeName)
 
-      def ident(name: Name) = Ident(name)
+      def ident(name: TypeName) = Ident(name)
 
       def select(firstName: Name)(lastName: Name): Select = Ident(firstName) DOT lastName
 
@@ -206,15 +206,14 @@ private[components] trait OrpComponent extends PluginComponent with Transform wi
       def initDef = DefDef(NoMods, nme.CONSTRUCTOR, Nil, Nil, TypeTree(), BLOCK(fn(zuper, nme.CONSTRUCTOR), EmptyTree))
 
       def qualifierWithTypeName(qualifier: Tree, name: Name): Tree = {
-        val typeName = mkTypeName(name)
         qualifier match {
-          case _: Ident => Ident(typeName)
-          case Select(qual, _) => Select(qual, typeName)
+          case _: Ident => Ident(name)
+          case Select(qual, _) => Select(qual, name)
           case x => abort("Unknown qualifier: " + qualifier)
         }
       }
 
-      private def mkImport(select: Select, name: Name) = Import(select, List(ImportSelector(name, -1, name, -1)))
+      private def mkImport(select: Select, name: TypeName) = Import(select, List(ImportSelector(name, -1, name, -1)))
 
       def imports = {
         val arrayBuffer = mkImport(Ident("collection") DOT "mutable", "ArrayBuffer")
@@ -234,24 +233,23 @@ private[components] trait OrpComponent extends PluginComponent with Transform wi
 
       def roleTypeAbstract(roleName: Name) = {
         TypeDef(Modifiers(Flag.DEFERRED), name.withRoleSuffix(roleName), Nil,
-          TypeBoundsTree(Ident(nme.ROOTPKG) DOT nme.scala_ DOT mkTypeName(tpnme.Nothing), Ident(mkTypeName(roleName))))
+          TypeBoundsTree(Ident(nme.ROOTPKG) DOT nme.scala_ DOT tpnme.Nothing, Ident(roleName)))
       }
 
       def roleType(roleName: Name, className: Name) = {
-        TypeDef(NoMods, name.withRoleSuffix(roleName), Nil, Ident(mkTypeName(className)))
+        TypeDef(NoMods, name.withRoleSuffix(roleName), Nil, Ident(className))
       }
 
-      def relationshipClass(relationshipClassName: Name, impl: Template) = {
-        ClassDef(Modifiers(Flag.ABSTRACT), mkTypeName(relationshipClassName), Nil, impl)
+      def relationshipClass(relationshipClassName: TypeName, impl: Template) = {
+        ClassDef(Modifiers(Flag.ABSTRACT), relationshipClassName, Nil, impl)
       }
 
       def othersVal(counterRoleName: Name) = {
         ValDef(Modifiers(Flag.PRIVATE | Flag.LOCAL), name.othersVal(counterRoleName), TypeTree(),
-          NEW(AppliedTypeTree(Ident(mkTypeName("ArrayBuffer")),
-            List(Ident(name.withRoleSuffix(counterRoleName))))))
+          NEW(AppliedTypeTree(ident("ArrayBuffer"), List(Ident(name.withRoleSuffix(counterRoleName))))))
       }
 
-      def actionDef(roleName: Name, counterRoleName: Name)(action: Name) = {
+      def actionDef(roleName: Name, counterRoleName: Name)(action: TypeName) = {
 
         val counterRoleNameDecapitalized = name.decapitalize(counterRoleName)
 
@@ -270,15 +268,14 @@ private[components] trait OrpComponent extends PluginComponent with Transform wi
         DefDef(NoMods, name.actionDef(action, counterRoleName), Nil, vparamss, UNIT, rhs)
       }
 
-      def actionMultiDef(counterRoleName: Name)(action: Name) = {
+      def actionMultiDef(counterRoleName: Name)(action: TypeName) = {
 
         val counterRoleNameDecapitalized = name.plural(name.decapitalize(counterRoleName))
 
         val vparamss = List(
           List(
             ValDef(NoMods, counterRoleNameDecapitalized,
-              AppliedTypeTree(Ident(mkTypeName("Traversable")),
-                List(Ident(name.withRoleSuffix(counterRoleName)))), EmptyTree)
+              AppliedTypeTree(ident("Traversable"), List(Ident(name.withRoleSuffix(counterRoleName)))), EmptyTree)
           )
         )
 
@@ -295,7 +292,7 @@ private[components] trait OrpComponent extends PluginComponent with Transform wi
 
         def createVparam(classifier: String) = {
           val crnrs = Ident(name.withRoleSuffix(counterRoleName))
-          val crnatt = AppliedTypeTree(Ident(mkTypeName("Traversable")), List(crnrs))
+          val crnatt = AppliedTypeTree(ident("Traversable"), List(crnrs))
           val tpt = if (multi) crnatt else crnrs
 
           ValDef(NoMods, classifier + crn, tpt, EmptyTree)
@@ -346,7 +343,7 @@ private[components] trait OrpComponent extends PluginComponent with Transform wi
         )
       }
 
-      def priActionDef(relationshipClassName: String, counterRoleName: Name)
+      def priActionDef(relationshipClassName: Name, counterRoleName: Name)
                       (action: Name, op: Name, createRhs: Tree => Tree) = {
 
         val counterRoleNameDecapitalized = name.decapitalize(counterRoleName)
@@ -362,19 +359,19 @@ private[components] trait OrpComponent extends PluginComponent with Transform wi
           fn(Ident(name.othersVal(counterRoleName)), op, Ident(counterRoleNameDecapitalized))
         }
 
-        DefDef(Modifiers(0, mkTypeName(relationshipClassName)), name.priActionDef(action, counterRoleName),
+        DefDef(Modifiers(0, relationshipClassName), name.priActionDef(action, counterRoleName),
           Nil, vparamss, UNIT, rhs)
       }
 
       def roleSelf(roleName: Name) = selfVal(Ident(name.withRoleSuffix(roleName)))
 
       def roleParents(parents: List[Tree]) = {
-        val roleTraitName = mkTypeName("RoleTrait")
-        Ident(roleTraitName) :: (parentsWithoutAnyRef(parents) filterNot {
+        val roleTrait = "RoleTrait"
+        ident(roleTrait) :: (parentsWithoutAnyRef(parents) filterNot {
           // Remove RoleTrait from parents
           p =>
             p match {
-              case _ => extract.lastName(p) == roleTraitName
+              case _ => extract.lastName(p) == roleTrait
             }
         })
       }
@@ -394,20 +391,20 @@ private[components] trait OrpComponent extends PluginComponent with Transform wi
         }
       }
 
-      def actionWrapperDef(counterClassName: Name, counterRoleName: Name)(action: Name) = {
+      def actionWrapperDef(counterClassName: Name, counterRoleName: Name)(action: TypeName) = {
         val counterClassNameDecapitalized = name.decapitalize(counterClassName)
         val mods = overrideIfNeeded(counterClassName, counterRoleName)
         DefDef(mods, name.actionDef(action, counterClassName), Nil,
-          List(List(ValDef(NoMods, counterClassNameDecapitalized, Ident(mkTypeName(counterClassName)), EmptyTree))),
+          List(List(ValDef(NoMods, counterClassNameDecapitalized, Ident(counterClassName), EmptyTree))),
           UNIT, fn(create.zuper, name.actionDef(action, counterRoleName), Ident(counterClassNameDecapitalized)))
       }
 
-      def actionMultiWrapperDef(counterClassName: Name, counterRoleName: Name)(action: Name) = {
+      def actionMultiWrapperDef(counterClassName: Name, counterRoleName: Name)(action: TypeName) = {
         val counterClassNameDecapitalized = name.plural(name.decapitalize(counterClassName))
         val mods = overrideIfNeeded(counterClassName, counterRoleName)
         DefDef(mods, name.plural(name.actionDef(action, counterClassName)), Nil,
           List(List(ValDef(NoMods, counterClassNameDecapitalized,
-            AppliedTypeTree(Ident(mkTypeName("Traversable")), List(Ident(mkTypeName(counterClassName)))), EmptyTree))),
+            AppliedTypeTree(ident("Traversable"), List(Ident(counterClassName))), EmptyTree))),
           UNIT, fn(create.zuper, name.plural(name.actionDef(action, counterRoleName)), Ident(counterClassNameDecapitalized)))
       }
 
@@ -418,7 +415,7 @@ private[components] trait OrpComponent extends PluginComponent with Transform wi
 
         def createVparam(classifier: String) = {
           val ccnrs = Ident(counterClassName)
-          val ccnatt = AppliedTypeTree(Ident(mkTypeName("Traversable")), List(ccnrs))
+          val ccnatt = AppliedTypeTree(ident("Traversable"), List(ccnrs))
           val tpt = if (multi) ccnatt else ccnrs
 
           ValDef(NoMods, classifier + ccn, tpt, EmptyTree)
@@ -446,8 +443,8 @@ private[components] trait OrpComponent extends PluginComponent with Transform wi
           create.zuper DOT name.getDef(counterRoleName))
       }
 
-      def roleClassWrapper(roleName: Name, parent: Tree, self: ValDef, body: List[Tree]) = {
-        ClassDef(Modifiers(Flag.TRAIT), mkTypeName(roleName), Nil, Template(List(parent), self, body))
+      def roleClassWrapper(roleName: TypeName, parent: Tree, self: ValDef, body: List[Tree]) = {
+        ClassDef(Modifiers(Flag.TRAIT), roleName, Nil, Template(List(parent), self, body))
       }
 
       private object name {
@@ -462,31 +459,31 @@ private[components] trait OrpComponent extends PluginComponent with Transform wi
           decapitalize(name) + PluralSuffix
         }
 
-        def actionDef(actionName: Name, name: Name) = {
+        def actionDef(actionName: TypeName, name: Name): TypeName = {
           actionName + capitalize(name)
         }
 
-        def clearDef(name: Name) = {
+        def clearDef(name: Name): TypeName = {
           ClearPrefix + capitalize(name) + PluralSuffix
         }
 
-        def getDef(name: Name) = {
+        def getDef(name: Name): TypeName = {
           GetPrefix + capitalize(name) + PluralSuffix
         }
 
-        def priActionDef(actionName: Name, name: Name) = {
+        def priActionDef(actionName: Name, name: Name): TypeName = {
           PriPrefix + capitalize(actionName) + capitalize(name)
         }
 
         def withRoleSuffix(name: Name) = {
-          mkTypeName(name + RoleSuffix)
+          name + RoleSuffix
         }
 
-        def decapitalize(name: Name) = {
+        def decapitalize(name: Name): TypeName = {
           Introspector.decapitalize(name.toString())
         }
 
-        def plural(name: Name) = {
+        def plural(name: Name): TypeName = {
           name + PluralSuffix
         }
 
