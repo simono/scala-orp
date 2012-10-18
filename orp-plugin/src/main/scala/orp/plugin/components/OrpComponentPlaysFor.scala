@@ -58,7 +58,7 @@ class OrpComponentPlaysFor(val global: Global) extends OrpComponent {
       val playsForClassesTransformed = transformPlaysForClasses(playsForRelationshipModules, playsForClauses)
 
       // Put everything together except the original classes
-      trees.filterNot(playsForClasses contains) ::: playsForRelationshipModules ::: playsForClassesTransformed
+      trees.filterNot(playsForClasses.contains(_)) ::: playsForRelationshipModules ::: playsForClassesTransformed
     }
 
     private case class PlaysForClause(clazz: ClassDef, role: Select, forClass: Name)
@@ -168,7 +168,7 @@ class OrpComponentPlaysFor(val global: Global) extends OrpComponent {
           val parents = classAndParents.map(_._2)
           // And transform it
           transformPlaysForClass(clazz, parents)
-      } toList
+      }.toList
     }
 
     private def transformPlaysForClass(clazz: ClassDef, parents: List[Select]): ClassDef = {
