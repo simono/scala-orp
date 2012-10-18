@@ -480,7 +480,7 @@ private[components] trait OrpComponent extends PluginComponent with Transform wi
         }
 
         def decapitalize(name: Name): TypeName = {
-          Introspector.decapitalize(name.toString())
+          Introspector.decapitalize(name.toString)
         }
 
         def plural(name: Name): TypeName = {
