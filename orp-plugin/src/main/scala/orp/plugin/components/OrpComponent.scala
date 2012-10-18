@@ -89,6 +89,8 @@ private[components] trait OrpComponent extends PluginComponent with Transform wi
     val RemovePrefix = "remove"
     val ReplacePrefix = "replace"
 
+    def toName(name: TypeName) = name
+
     object check {
 
       def annotation(mods: Modifiers, annotation: Class[_ <: StaticAnnotation]) = {
@@ -117,7 +119,7 @@ private[components] trait OrpComponent extends PluginComponent with Transform wi
 
       def annotationArgs(mods: Modifiers, annotation: Class[_ <: StaticAnnotation]): List[List[Tree]] = {
         mods.annotations collect {
-          case Apply(Select(New(Ident(name: TypeName)), _), args) if name == annotation.getSimpleName => args
+          case Apply(Select(New(Ident(name: TypeName)), _), args) if name == toName(annotation.getSimpleName) => args
         }
       }
 
@@ -197,8 +199,6 @@ private[components] trait OrpComponent extends PluginComponent with Transform wi
       def zuper = Super(thiz, emptyTypeName)
 
       def ident(name: TypeName) = Ident(name)
-
-      def toName(name: TypeName) = name
 
       def select(firstName: Name)(lastName: Name): Select = Ident(firstName) DOT lastName
 
