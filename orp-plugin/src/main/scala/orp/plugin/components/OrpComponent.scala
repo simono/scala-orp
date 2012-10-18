@@ -198,6 +198,8 @@ private[components] trait OrpComponent extends PluginComponent with Transform wi
 
       def ident(name: TypeName) = Ident(name)
 
+      def toName(name: TypeName) = name
+
       def select(firstName: Name)(lastName: Name): Select = Ident(firstName) DOT lastName
 
       def select(qualifier: Tree, lastName: Name) = qualifier DOT lastName
@@ -217,8 +219,8 @@ private[components] trait OrpComponent extends PluginComponent with Transform wi
       private def mkImport(select: Select, name: TypeName) = Import(select, List(ImportSelector(name, -1, name, -1)))
 
       def imports = {
-        val arrayBuffer = mkImport(Ident("collection") DOT "mutable", "ArrayBuffer")
-        val roleTrait = mkImport(Ident(nme.ROOTPKG) DOT "orp" DOT "api", "RoleTrait")
+        val arrayBuffer = mkImport(Ident("collection") DOT toName("mutable"), "ArrayBuffer")
+        val roleTrait = mkImport(Ident(nme.ROOTPKG) DOT toName("orp") DOT toName("api"), "RoleTrait")
         List(arrayBuffer, roleTrait)
       }
 
@@ -328,8 +330,8 @@ private[components] trait OrpComponent extends PluginComponent with Transform wi
       def priAddOne(counterRoleName: Name)(rhs: Tree) = {
         BLOCK(
           // Require that there is max. One
-          fn(Ident(nme.Predef), "require",
-            fn(Ident(name.othersVal(counterRoleName)) DOT "size", nme.LE, Literal(1))),
+          fn(Ident(nme.Predef), toName("require"),
+            fn(Ident(name.othersVal(counterRoleName)) DOT toName("size"), nme.LE, LIT(1))),
           // Remove the old One
           fn(Ident(name.othersVal(counterRoleName)), nme.foreach,
             Ident(name.actionDef(RemovePrefix, counterRoleName))),
@@ -340,7 +342,7 @@ private[components] trait OrpComponent extends PluginComponent with Transform wi
           rhs,
           // Assume that there's One
           fn(Ident(nme.Predef), nme.assume_,
-            fn(Ident(name.othersVal(counterRoleName)) DOT "size", nme.EQ, Literal(1)))
+            fn(Ident(name.othersVal(counterRoleName)) DOT toName("size"), nme.EQ, LIT(1)))
         )
       }
 
