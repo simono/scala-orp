@@ -107,7 +107,7 @@ private[components] trait OrpComponent extends PluginComponent with Transform wi
 
       def sameLastName(qOne: Tree, qTwo: Tree) = extract.lastName(qOne) == extract.lastName(qTwo)
 
-      def annotationValueName(annotation: Class[_ <: StaticAnnotation], value: TypeName)(mods: Modifiers) = {
+      def annotationValueName(annotation: Class[_ <: StaticAnnotation], value: String)(mods: Modifiers) = {
         val values = extract.annotationValuesFlat(mods, annotation)
         assert(values.size <= 1)
         values.exists(extract.lastName(_) == value)
@@ -119,7 +119,7 @@ private[components] trait OrpComponent extends PluginComponent with Transform wi
 
       def annotationArgs(mods: Modifiers, annotation: Class[_ <: StaticAnnotation]): List[List[Tree]] = {
         mods.annotations collect {
-          case Apply(Select(New(Ident(name: TypeName)), _), args) if name == toName(annotation.getSimpleName) => args
+          case Apply(Select(New(Ident(name: TypeName)), _), args) if name.toString == annotation.getSimpleName => args
         }
       }
 
@@ -157,10 +157,10 @@ private[components] trait OrpComponent extends PluginComponent with Transform wi
         }
       }
 
-      def lastName(qualifier: Tree) = {
+      def lastName(qualifier: Tree): String = {
         qualifier match {
-          case Ident(name: TypeName) => name
-          case Select(_, name: TypeName) => name
+          case Ident(name: Name) => name.toString
+          case Select(_, name: Name) => name.toString
           case x => abort("Unknown qualifier: " + qualifier)
         }
       }
