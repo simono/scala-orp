@@ -15,7 +15,7 @@
  */
 package orp
 
-import annotation.Annotation
+import annotation.StaticAnnotation
 import reflect.{ClassTag, classTag}
 
 /**
@@ -28,13 +28,13 @@ object api extends Enumeration {
   type multiplicity = Value
   val One, Many = Value
 
-  class relationship extends Annotation
+  class relationship extends StaticAnnotation
 
-  class role(multiplicity: multiplicity = Many) extends Annotation
+  class role(multiplicity: multiplicity = Many) extends StaticAnnotation
 
-  class plays(roles: ClassTag[_ <: RoleTrait]*) extends Annotation
+  class plays(roles: ClassTag[_ <: RoleTrait]*) extends StaticAnnotation
 
-  class playsFor(role: ClassTag[_ <: RoleTrait], forClass: Class[_]) extends Annotation
+  class playsFor(role: ClassTag[_ <: RoleTrait], forClass: Class[_]) extends StaticAnnotation
 
   trait RoleTrait
 

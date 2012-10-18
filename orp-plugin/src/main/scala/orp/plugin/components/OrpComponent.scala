@@ -15,6 +15,7 @@
  */
 package orp.plugin.components
 
+import annotation.StaticAnnotation
 import tools.nsc.plugins.PluginComponent
 import tools.nsc.ast.TreeDSL
 import tools.nsc.transform.Transform
@@ -90,7 +91,7 @@ private[components] trait OrpComponent extends PluginComponent with Transform wi
 
     object check {
 
-      def annotation(mods: Modifiers, annotation: Class[_ <: Annotation]) = {
+      def annotation(mods: Modifiers, annotation: Class[_ <: StaticAnnotation]) = {
         extract.annotationArgs(mods, annotation).nonEmpty
       }
 
@@ -104,7 +105,7 @@ private[components] trait OrpComponent extends PluginComponent with Transform wi
 
       def sameLastName(qOne: Tree, qTwo: Tree) = extract.lastName(qOne) == extract.lastName(qTwo)
 
-      def annotationValueName(annotation: Class[_ <: Annotation], value: Name)(mods: Modifiers) = {
+      def annotationValueName(annotation: Class[_ <: StaticAnnotation], value: Name)(mods: Modifiers) = {
         val values = extract.annotationValuesFlat(mods, annotation)
         assert(values.size <= 1)
         values.exists(extract.lastName(_) == value)
@@ -114,13 +115,13 @@ private[components] trait OrpComponent extends PluginComponent with Transform wi
 
     object extract {
 
-      def annotationArgs(mods: Modifiers, annotation: Class[_ <: Annotation]): List[List[Tree]] = {
+      def annotationArgs(mods: Modifiers, annotation: Class[_ <: StaticAnnotation]): List[List[Tree]] = {
         mods.annotations collect {
           case Apply(Select(New(Ident(name: TypeName)), _), args) if name == annotation.getSimpleName => args
         }
       }
 
-      def annotationValues(mods: Modifiers, annotation: Class[_ <: Annotation]): List[List[Tree]] = {
+      def annotationValues(mods: Modifiers, annotation: Class[_ <: StaticAnnotation]): List[List[Tree]] = {
 
         val args = annotationArgs(mods, annotation)
         if (args.isEmpty) {
@@ -136,11 +137,11 @@ private[components] trait OrpComponent extends PluginComponent with Transform wi
         }
       }
 
-      def annotationValuesFlat(mods: Modifiers, annotation: Class[_ <: Annotation]): List[Tree] = {
+      def annotationValuesFlat(mods: Modifiers, annotation: Class[_ <: StaticAnnotation]): List[Tree] = {
         annotationValues(mods, annotation).flatMap(identity)
       }
 
-      def selectsAndNamesFromAnnotationValues(annotation: Class[_ <: Annotation], mods: Modifiers): List[(Select, Name)] = {
+      def selectsAndNamesFromAnnotationValues(annotation: Class[_ <: StaticAnnotation], mods: Modifiers): List[(Select, Name)] = {
         extract.annotationValues(mods, annotation) map {
           v =>
             val List(select: Select, Ident(name)) = v
@@ -148,7 +149,7 @@ private[components] trait OrpComponent extends PluginComponent with Transform wi
         }
       }
 
-      def classDefsWithAnnotation(trees: List[Tree], annotation: Class[_ <: Annotation]): List[ClassDef] = {
+      def classDefsWithAnnotation(trees: List[Tree], annotation: Class[_ <: StaticAnnotation]): List[ClassDef] = {
         trees collect {
           case c: ClassDef if check.annotation(c.mods, annotation) => c
         }
