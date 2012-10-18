@@ -158,17 +158,19 @@ class OrpComponentPlaysFor(val global: Global) extends OrpComponent {
           List(classAndParentOne, classAndParentTwo)
       }
 
-      // Group this list by class and transform the class with it's parents
-      classesAndParents groupBy {
-        _._1
-      } map {
+      val classesAndParentsGroupedByClass = classesAndParents.groupBy(_._1)
+
+      // Transform the class with it's parents
+      val classesAndParentsTransformed = classesAndParentsGroupedByClass map {
         m =>
           val (clazz, classAndParents) = m
           // Create a List of all the parents
           val parents = classAndParents.map(_._2)
           // And transform it
           transformPlaysForClass(clazz, parents)
-      }.toList
+      }
+
+      classesAndParentsTransformed.toList
     }
 
     private def transformPlaysForClass(clazz: ClassDef, parents: List[Select]): ClassDef = {
