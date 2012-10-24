@@ -76,15 +76,15 @@ class OrpComponentRelationship(val global: Global) extends OrpComponent {
       require(relationshipModule.exists(roleFirst == _))
       require(relationshipModule.exists(roleSecond == _))
 
-      val relationshipClassName = RelationshipClassPrefix + relationshipModule.name
+      val relationshipClassName = relationshipModule.name.prepend(RelationshipClassPrefix).toTypeName
 
-      val roleTypeFirst = create.roleTypeAbstract(roleFirst.name)
-      val roleTypeSecond = create.roleTypeAbstract(roleSecond.name)
+      val roleTypeFirst = create.roleTypeAbstract(roleFirst.name.toString)
+      val roleTypeSecond = create.roleTypeAbstract(roleSecond.name.toString)
 
       val trc = transformRoleClass(relationshipClassName) _
-      val holdsOne = check.annotationValueName(classOf[role], One.toString) _
-      val roleFirstNew = trc(roleFirst, roleSecond.name, holdsOne(roleSecond.mods))
-      val roleSecondNew = trc(roleSecond, roleFirst.name, holdsOne(roleFirst.mods))
+      val holdsOne = check.annotationValueName(classOf[role], One) _
+      val roleFirstNew = trc(roleFirst, roleSecond.name.toString, holdsOne(roleSecond.mods))
+      val roleSecondNew = trc(roleSecond, roleFirst.name.toString, holdsOne(roleFirst.mods))
 
       val body = roleTypeFirst :: roleTypeSecond :: roleFirstNew :: roleSecondNew ::
         (relationshipModule.impl.body filterNot {
@@ -94,10 +94,10 @@ class OrpComponentRelationship(val global: Global) extends OrpComponent {
       create.relationshipClass(relationshipClassName, copy.Template(relationshipModule.impl)(body = body))
     }
 
-    private def transformRoleClass(relationshipClassName: String)
-                                  (roleClass: ClassDef, counterRoleName: Name, holdsOne: Boolean) = {
+    private def transformRoleClass(relationshipClassName: TypeName)
+                                  (roleClass: ClassDef, counterRoleName: String, holdsOne: Boolean) = {
 
-      val actionDef = create.actionDef(roleClass.name, counterRoleName) _
+      val actionDef = create.actionDef(roleClass.name.toString, counterRoleName) _
       val actionMultiDef = create.actionMultiDef(counterRoleName) _
       val replaceDef = create.replaceDef(counterRoleName) _
       val priActionDef = create.priActionDef(relationshipClassName, counterRoleName) _
@@ -115,7 +115,7 @@ class OrpComponentRelationship(val global: Global) extends OrpComponent {
       val priRemoveDef = priActionDef(RemovePrefix, OpMinusEq, identity)
 
       val parents = create.roleParents(roleClass.impl.parents)
-      val self = create.roleSelf(roleClass.name)
+      val self = create.roleSelf(roleClass.name.toString)
       val body = othersVal :: addDef :: addMultiDef :: removeDef :: removeMultiDef :: replaceOneDef :: replaceMultiDef ::
         clearDef :: getDef :: priAddDef :: priRemoveDef :: roleClass.impl.body
       val impl = copy.Template(roleClass.impl)(parents = parents, self = self, body = body)
@@ -124,13 +124,13 @@ class OrpComponentRelationship(val global: Global) extends OrpComponent {
     }
 
     private def transformRelationshipModule(relationshipModule: ModuleDef, relationshipClassName: TypeName,
-                                            roleFirstName: Name, roleSecondName: Name) = {
+                                            roleFirstName: TypeName, roleSecondName: TypeName) = {
 
-      def roleType(roleName: Name) = create.roleType(roleName, roleName)
+      def roleType(roleName: TypeName) = create.roleType(roleName.toString, roleName)
       val roleTypeFirst = roleType(roleFirstName)
       val roleTypeSecond = roleType(roleSecondName)
 
-      val parents = create.ident(relationshipClassName) :: relationshipModule.impl.parents
+      val parents = create.ident(relationshipClassName) :: create.parentsWithoutAnyRef(relationshipModule.impl.parents)
       val body = List(create.initDef, roleTypeFirst, roleTypeSecond)
 
       copy.ModuleDef(relationshipModule)(impl = copy.Template(relationshipModule.impl)(parents = parents, body = body))

@@ -61,7 +61,7 @@ class OrpComponentPlaysFor(val global: Global) extends OrpComponent {
       trees.filterNot(playsForClasses.contains(_)) ::: playsForRelationshipModules ::: playsForClassesTransformed
     }
 
-    private case class PlaysForClause(clazz: ClassDef, role: Select, forClass: Name)
+    private case class PlaysForClause(clazz: ClassDef, role: Select, forClass: TypeName)
 
     private def createPlaysForClauses(classDefs: List[ClassDef]): List[(PlaysForClause, PlaysForClause)] = {
       mapPlaysForClauses {
@@ -105,24 +105,24 @@ class OrpComponentPlaysFor(val global: Global) extends OrpComponent {
       val relationshipQualifier = pfcs._1.role.qualifier
       require(relationshipQualifier.equalsStructure(pfcs._2.role.qualifier))
 
-      val relationshipName = extract.lastName(relationshipQualifier)
+      val relationshipName = extract.lastName(relationshipQualifier).toTypeName
 
-      val relationshipModuleName = relationshipName.toString + pfcs._1.clazz.name + pfcs._2.clazz.name
+      val relationshipModuleName = relationshipName.append(pfcs._1.clazz.name).append(pfcs._2.clazz.name).toTermName
 
-      val parent = create.qualifierWithTypeName(relationshipQualifier, RelationshipClassPrefix + relationshipName)
+      val parent = create.qualifierWithTypeName(relationshipQualifier, relationshipName.prepend(RelationshipClassPrefix))
       val self = create.selfVal()
       val body = List(
         create.initDef,
-        create.roleType(pfcs._1.role.name, pfcs._1.clazz.name),
-        create.roleType(pfcs._2.role.name, pfcs._2.clazz.name),
-        createRoleClassWrapper(pfcs._1.role.name, pfcs._2.clazz.name, pfcs._2.role.name),
-        createRoleClassWrapper(pfcs._2.role.name, pfcs._1.clazz.name, pfcs._1.role.name)
+        create.roleType(pfcs._1.role.name.toString, pfcs._1.clazz.name),
+        create.roleType(pfcs._2.role.name.toString, pfcs._2.clazz.name),
+        createRoleClassWrapper(pfcs._1.role.name.toString, pfcs._2.clazz.name.toString, pfcs._2.role.name.toString),
+        createRoleClassWrapper(pfcs._2.role.name.toString, pfcs._1.clazz.name.toString, pfcs._1.role.name.toString)
       )
 
       create.playsForRelationshipModule(relationshipModuleName, parent, self, body)
     }
 
-    def createRoleClassWrapper(roleName: Name, counterClassName: Name, counterRoleName: Name) = {
+    def createRoleClassWrapper(roleName: String, counterClassName: String, counterRoleName: String) = {
 
       val actionWrapperDef = create.actionWrapperDef(counterClassName, counterRoleName) _
       val actionMultiWrapperDef = create.actionMultiWrapperDef(counterClassName, counterRoleName) _
@@ -153,8 +153,8 @@ class OrpComponentPlaysFor(val global: Global) extends OrpComponent {
         z =>
           val (playsForRelationshipModuleName, (pfcOne, pfcTwo)) = z
           val createSelect = create.select(playsForRelationshipModuleName) _
-          val classAndParentOne = (pfcOne.clazz, createSelect(pfcOne.role.name))
-          val classAndParentTwo = (pfcTwo.clazz, createSelect(pfcTwo.role.name))
+          val classAndParentOne = (pfcOne.clazz, createSelect(pfcOne.role.name.toTypeName))
+          val classAndParentTwo = (pfcTwo.clazz, createSelect(pfcTwo.role.name.toTypeName))
           List(classAndParentOne, classAndParentTwo)
       }
 
