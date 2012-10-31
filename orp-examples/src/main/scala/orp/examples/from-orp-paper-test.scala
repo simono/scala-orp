@@ -33,14 +33,14 @@ object test {
   def testRole() {
     for (c <- List((classOf[aggregation.Whole], "Part"), (classOf[aggregation.Part], "Whole"),
       (classOf[Directory], "File"), (classOf[File], "Directory"))) {
-      assert(c._1.getMethods.exists(_.getName == "add" + c._2))
-      assert(c._1.getMethods.exists(_.getName == "add" + c._2 + "s"))
-      assert(c._1.getMethods.exists(_.getName == "remove" + c._2))
-      assert(c._1.getMethods.exists(_.getName == "remove" + c._2 + "s"))
-      assert(c._1.getMethods.exists(_.getName == "replace" + c._2))
-      assert(c._1.getMethods.exists(_.getName == "replace" + c._2 + "s"))
-      assert(c._1.getMethods.exists(_.getName == "clear" + c._2 + "s"))
-      assert(c._1.getMethods.exists(_.getName == "get" + c._2 + "s"))
+      assert(c._1.getMethods.exists(_.getName == s"add${c._2}"))
+      assert(c._1.getMethods.exists(_.getName == s"add${c._2}s"))
+      assert(c._1.getMethods.exists(_.getName == s"remove${c._2}"))
+      assert(c._1.getMethods.exists(_.getName == s"remove${c._2}s"))
+      assert(c._1.getMethods.exists(_.getName == s"replace${c._2}"))
+      assert(c._1.getMethods.exists(_.getName == s"replace${c._2}s"))
+      assert(c._1.getMethods.exists(_.getName == s"clear${c._2}s"))
+      assert(c._1.getMethods.exists(_.getName == s"get${c._2}s"))
     }
     assert(classOf[aggregation.Whole].getMethods.exists(_.getName == "contains"))
   }

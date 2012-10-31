@@ -50,13 +50,13 @@ class OrpComponentRelationship(val global: Global) extends OrpComponent {
           case moduleDef@ModuleDef(mods, name, _) if check.annotation(mods, classOf[relationship]) =>
 
             val roles = extract.classDefsWithAnnotation(moduleDef.impl.body, classOf[role])
-            if (roles.size != 2) abort("Found %d roles in relationship '%s'. Expected two roles!".format(roles.size, name))
+            if (roles.size != 2) abort(s"Found ${roles.size} roles in relationship '${name}'. Expected two roles!")
             val List(roleFirst, roleSecond) = roles;
             roles foreach {
-              r => if (!check.isTrait(r)) abort("Role '%s' needs to be a trait!".format(r.name))
+              r => if (!check.isTrait(r)) abort(s"Role '${r.name}' needs to be a trait!")
             }
 
-            log("Relationship " + name + " with Roles " + roleFirst.name + " and " + roleSecond.name)
+            log(s"Relationship ${name} with Roles ${roleFirst.name} and ${roleSecond.name}")
 
             val relationshipClass = createRelationshipClass(moduleDef, roleFirst, roleSecond)
             val relationshipModule = transformRelationshipModule(moduleDef, relationshipClass.name,

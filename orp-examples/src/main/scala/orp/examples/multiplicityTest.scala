@@ -66,6 +66,6 @@ object multiplicityTest {
     assert(domainOne.getOneFirsts.isEmpty)
     assert(domainTwo.getOneFirsts == List(contractOne))
 
-    println(this.getClass.getSimpleName + ": Everything went fine :-)")
+    println(s"${this.getClass.getSimpleName}: Everything went fine :-)")
   }
 }

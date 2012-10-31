@@ -78,7 +78,7 @@ class OrpComponentPlaysFor(val global: Global) extends OrpComponent {
 
     private def mapPlaysForClauses(playsForClauses: List[PlaysForClause]): List[(PlaysForClause, PlaysForClause)] = {
 
-      require(playsForClauses.length % 2 == 0, "Found " + playsForClauses.length + ", that won't match!")
+      require(playsForClauses.length % 2 == 0, s"Found ${playsForClauses.length}, that won't match!")
 
       if (playsForClauses.isEmpty) Nil
       else {
@@ -88,19 +88,19 @@ class OrpComponentPlaysFor(val global: Global) extends OrpComponent {
           pfc =>
             pfcOne.forClass == pfc.clazz.name && pfcOne.clazz.name == pfc.forClass
         } getOrElse {
-          abort("Class " + pfcOne.clazz.name + " playsFor " + pfcOne.forClass + ", but this class wasn't found!")
+          abort(s"Class ${pfcOne.clazz.name} playsFor ${pfcOne.forClass}, but this class wasn't found!")
         }
-        assert(pfcOne != pfcTwo, "Class " + pfcOne.clazz.name + " plays itself!")
+        assert(pfcOne != pfcTwo, s"Class ${pfcOne.clazz.name} plays itself!")
         (pfcOne, pfcTwo) :: mapPlaysForClauses(playsForClauses.filterNot(pfc => pfc == pfcOne || pfc == pfcTwo))
       }
     }
 
     private def createPlaysForRelationshipModule(pfcs: (PlaysForClause, PlaysForClause)): ModuleDef = {
 
-      require(pfcs._1.role.name != pfcs._2.role.name, pfcs._1.role.name + " == " + pfcs._2.role.name)
+      require(pfcs._1.role.name != pfcs._2.role.name, s"${pfcs._1.role.name} == ${pfcs._2.role.name}")
 
-      log(pfcs._1.clazz.name + " plays " + pfcs._1.role + " for " + pfcs._2.clazz.name)
-      log(pfcs._2.clazz.name + " plays " + pfcs._2.role + " for " + pfcs._1.clazz.name)
+      log(s"${pfcs._1.clazz.name} plays ${pfcs._1.role} for ${pfcs._2.clazz.name}")
+      log(s"${pfcs._2.clazz.name} plays ${pfcs._2.role} for ${pfcs._1.clazz.name}")
 
       val relationshipQualifier = pfcs._1.role.qualifier
       require(relationshipQualifier.equalsStructure(pfcs._2.role.qualifier))
@@ -181,7 +181,7 @@ class OrpComponentPlaysFor(val global: Global) extends OrpComponent {
         pOne <- oldParents
         pTwo <- parents
         if check.sameLastName(pOne, pTwo)
-      } abort("Class %s already plays role %s!".format(clazz.name, extract.lastName(pOne)))
+      } abort(s"Class ${clazz.name} already plays role ${extract.lastName(pOne)}!")
 
 
       copy.ClassDef(clazz)(impl = copy.Template(clazz.impl)(parents = oldParents ::: parents))

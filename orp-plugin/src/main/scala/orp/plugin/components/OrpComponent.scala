@@ -125,14 +125,14 @@ private[components] trait OrpComponent extends PluginComponent with Transform wi
 
         val args = annotationArgs(mods, annotation)
         if (args.isEmpty) {
-          abort("Annotation '" + annotation.getSimpleName + "' not found in '" + mods.annotations + "'!")
+          abort(s"Annotation '${annotation.getSimpleName}' not found in '${mods.annotations}'!")
         }
 
         args map {
           _ map {
             case TypeApply(_, List(arg)) => arg
             case ident: Ident => ident
-            case x => abort("Unkown annotation argument %s for annotation %s!".format(x, annotation.getName))
+            case x => abort(s"Unkown annotation argument $x for annotation ${annotation.getName}!")
           }
         }
       }
@@ -159,7 +159,7 @@ private[components] trait OrpComponent extends PluginComponent with Transform wi
         qualifier match {
           case Ident(name) => name
           case Select(_, name) => name
-          case x => abort("Unknown qualifier: " + qualifier)
+          case x => abort(s"Unknown qualifier: $qualifier")
         }
       }
     }
@@ -220,7 +220,7 @@ private[components] trait OrpComponent extends PluginComponent with Transform wi
         qualifier match {
           case _: Ident => Ident(name)
           case Select(qual, _) => Select(qual, name)
-          case x => abort("Unknown qualifier: " + qualifier)
+          case x => abort(s"Unknown qualifier: $qualifier")
         }
       }
 

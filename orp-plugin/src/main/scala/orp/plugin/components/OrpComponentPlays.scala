@@ -42,7 +42,7 @@ class OrpComponentPlays(val global: Global) extends OrpComponent {
       case classDef@ClassDef(mods, _, _, template@Template(parents, _, _))
         if check.annotation(mods, classOf[plays]) =>
         val plays = extract.annotationValuesFlat(mods, classOf[plays])
-        log(classDef.name + " plays " + plays.mkString(", "))
+        log(s"${classDef.name} plays ${plays.mkString(", ")}")
         copy.ClassDef(classDef)(impl = copy.Template(template)(parents = parents ::: plays))
     }
   }
