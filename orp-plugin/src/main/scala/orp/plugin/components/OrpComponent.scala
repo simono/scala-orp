@@ -453,7 +453,7 @@ private[components] trait OrpComponent extends PluginComponent with Transform wi
       }
 
       def roleClassWrapper(roleName: TypeName, parent: Tree, self: ValDef, body: List[Tree]) = {
-        ClassDef(Modifiers(Flag.TRAIT), roleName, Nil, Template(List(parent), self, body))
+        ClassDef(Modifiers(Flag.ABSTRACT | Flag.TRAIT), roleName, Nil, Template(List(parent), self, body))
       }
 
       private object name {
