@@ -321,25 +321,25 @@
   <component name="libraryTable">
     <library name="scala-compiler">
       <CLASSES>
-        <root url="file://$USER_HOME$/.sbt/boot/scala-2.10.0-RC1/lib" />
+        <root url="file://$USER_HOME$/.sbt/boot/scala-2.10.0-RC3/lib" />
       </CLASSES>
       <JAVADOC />
       <SOURCES>
-        <root url="jar://$USER_HOME$/.ivy2/cache/org.scala-lang/scala-library/srcs/scala-library-2.10.0-RC1-sources.jar!/" />
-        <root url="jar://$USER_HOME$/.ivy2/cache/org.scala-lang/scala-compiler/srcs/scala-compiler-2.10.0-RC1-sources.jar!/" />
-        <root url="jar://$USER_HOME$/.ivy2/cache/org.scala-lang/scala-reflect/srcs/scala-reflect-2.10.0-RC1-sources.jar!/" />
+        <root url="jar://$USER_HOME$/.ivy2/cache/org.scala-lang/scala-library/srcs/scala-library-2.10.0-RC3-sources.jar!/" />
+        <root url="jar://$USER_HOME$/.ivy2/cache/org.scala-lang/scala-compiler/srcs/scala-compiler-2.10.0-RC3-sources.jar!/" />
+        <root url="jar://$USER_HOME$/.ivy2/cache/org.scala-lang/scala-reflect/srcs/scala-reflect-2.10.0-RC3-sources.jar!/" />
       </SOURCES>
-      <jarDirectory url="file://$USER_HOME$/.sbt/boot/scala-2.10.0-RC1/lib" recursive="false" />
+      <jarDirectory url="file://$USER_HOME$/.sbt/boot/scala-2.10.0-RC3/lib" recursive="false" />
     </library>
     <library name="scala-library">
       <CLASSES>
-        <root url="jar://$USER_HOME$/.sbt/boot/scala-2.10.0-RC1/lib/scala-library.jar!/" />
+        <root url="jar://$USER_HOME$/.sbt/boot/scala-2.10.0-RC3/lib/scala-library.jar!/" />
       </CLASSES>
       <JAVADOC>
         <root url="http://www.scala-lang.org/api/current/index.html" />
       </JAVADOC>
       <SOURCES>
-        <root url="jar://$USER_HOME$/.ivy2/cache/org.scala-lang/scala-library/srcs/scala-library-2.10.0-RC1-sources.jar!/" />
+        <root url="jar://$USER_HOME$/.ivy2/cache/org.scala-lang/scala-library/srcs/scala-library-2.10.0-RC3-sources.jar!/" />
       </SOURCES>
     </library>
   </component>
