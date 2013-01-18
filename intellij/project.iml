@@ -27,19 +27,19 @@
     <orderEntry type="module-library">
       <library name="SBT">
         <CLASSES>
-          <root url="file://$USER_HOME$/.sbt/boot/scala-2.9.1/org.scala-sbt/sbt/0.11.3" />
-          <root url="file://$USER_HOME$/.sbt/boot/scala-2.9.1/org.scala-sbt/sbt/0.11.3/xsbti" />
+          <root url="file://$USER_HOME$/.sbt/boot/scala-2.9.2/org.scala-sbt/sbt/0.12.2" />
+          <root url="file://$USER_HOME$/.sbt/boot/scala-2.9.2/org.scala-sbt/sbt/0.12.2/xsbti" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
-        <jarDirectory url="file://$USER_HOME$/.sbt/boot/scala-2.9.1/org.scala-sbt/sbt/0.11.3" recursive="false" />
-        <jarDirectory url="file://$USER_HOME$/.sbt/boot/scala-2.9.1/org.scala-sbt/sbt/0.11.3/xsbti" recursive="false" />
+        <jarDirectory url="file://$USER_HOME$/.sbt/boot/scala-2.9.2/org.scala-sbt/sbt/0.12.2" recursive="false" />
+        <jarDirectory url="file://$USER_HOME$/.sbt/boot/scala-2.9.2/org.scala-sbt/sbt/0.12.2/xsbti" recursive="false" />
       </library>
     </orderEntry>
     <orderEntry type="module-library">
       <library name="sbt-assembly">
         <CLASSES>
-          <root url="jar://$USER_HOME$/.ivy2/cache/scala_2.9.1/sbt_0.11.3/com.eed3si9n/sbt-assembly/jars/sbt-assembly-0.8.4.jar!/" />
+          <root url="jar://$USER_HOME$/.ivy2/cache/scala_2.9.2/sbt_0.12/com.eed3si9n/sbt-assembly/jars/sbt-assembly-0.8.4.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />

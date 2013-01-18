@@ -44,7 +44,11 @@
       <entry name="?*.tld" />
       <entry name="?*.ftl" />
     </wildcardResourcePatterns>
-    <annotationProcessing enabled="false" useClasspath="true" />
+    <annotationProcessing>
+      <profile default="true" name="Default" enabled="false">
+        <processorPath useClasspath="true" />
+      </profile>
+    </annotationProcessing>
   </component>
   <component name="CopyrightManager" default="Apache 2 License">
     <copyright>
@@ -89,10 +93,7 @@
           <option name="ignoreByteAndShortArrayParameters" value="false" />
         </inspection_tool>
         <inspection_tool class="RandomDoubleForRandomInteger" enabled="true" level="WARNING" enabled_by_default="true" />
-        <inspection_tool class="RawUseOfParameterizedType" enabled="true" level="WARNING" enabled_by_default="true">
-          <option name="ignoreObjectConstruction" value="true" />
-          <option name="ignoreTypeCasts" value="false" />
-        </inspection_tool>
+        <inspection_tool class="RawUseOfParameterizedType" enabled="true" level="WARNING" enabled_by_default="true" />
         <inspection_tool class="RedundantStringFormatCall" enabled="true" level="WARNING" enabled_by_default="true" />
         <inspection_tool class="ScalaFileName" enabled="false" level="WARNING" enabled_by_default="false" />
         <inspection_tool class="SetReplaceableByEnumSet" enabled="true" level="WARNING" enabled_by_default="true" />
@@ -308,7 +309,7 @@
   <component name="ProjectResources">
     <default-html-doctype>http://www.w3.org/1999/xhtml</default-html-doctype>
   </component>
-  <component name="ProjectRootManager" version="2" languageLevel="JDK_1_7" assert-keyword="true" jdk-15="true" project-jdk-name="JSDK" project-jdk-type="JavaSDK">
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_1_7" assert-keyword="true" jdk-15="true" project-jdk-name="1.7" project-jdk-type="JavaSDK">
     <output url="file://$PROJECT_DIR$/../target" />
   </component>
   <component name="ScalacSettings">
