@@ -23,7 +23,7 @@ import Keys._
  */
 object BuildSettings {
   val buildOrganization = "orp"
-  val buildScalaVersion = "2.10.0"
+  val buildScalaVersion = "2.10.1"
   val buildVersion = "1.0"
 
   val buildSettings = Defaults.defaultSettings ++ Seq(
