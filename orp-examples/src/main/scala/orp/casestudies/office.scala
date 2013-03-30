@@ -78,7 +78,7 @@ object OfficeMain extends App {
 
   val desks = List(deskWithPhoneAndOccupied, deskWithPhone, desk)
 
-  println("Found: " + findDesksWithPhonesAndUnoccupied.size)
+  println(s"Found: ${findDesksWithPhonesAndUnoccupied.size}")
 
   def findDesksWithPhonesAndUnoccupied = {
 

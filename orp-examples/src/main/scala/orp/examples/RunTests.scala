@@ -28,7 +28,7 @@ object RunTests extends App {
     multipleAnnotationsTest.run()
     multiplicityTest.run()
   } catch {
-    case e => {
+    case e: Throwable => {
       e.printStackTrace()
       throw e
     }

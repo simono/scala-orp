@@ -31,6 +31,6 @@ object multipleAnnotationsTest {
 
     testPlays
 
-    println(this.getClass.getSimpleName + ": Everything went fine :-)")
+    println(s"${this.getClass.getSimpleName}: Everything went fine :-)")
   }
 }

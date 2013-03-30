@@ -35,9 +35,9 @@ object containerTest {
 
   def testRoles {
     for (c <- List((classOf[rel1.Role1], "Role2"), (classOf[rel1.Role2], "Role1"))) {
-      assert(c._1.getMethods.exists(_.getName == "add" + c._2))
-      assert(c._1.getMethods.exists(_.getName == "remove" + c._2))
-      assert(c._1.getMethods.exists(_.getName == "get" + c._2 + "s"))
+      assert(c._1.getMethods.exists(_.getName == s"add${c._2}"))
+      assert(c._1.getMethods.exists(_.getName == s"remove${c._2}"))
+      assert(c._1.getMethods.exists(_.getName == s"get${c._2}s"))
     }
   }
 
@@ -56,6 +56,6 @@ object containerTest {
     testPlays
     testPlaysFor
 
-    println(this.getClass.getSimpleName + ": Everything went fine :-)")
+    println(s"${this.getClass.getSimpleName}: Everything went fine :-)")
   }
 }

@@ -64,7 +64,7 @@ object orp {
   @plays(role[Visitable.Visit])
   class DoctorsVisit() {
     val date = new Date()
-    val description = "Doctor's Visit on " + date
+    val description = s"Doctor's Visit on $date"
   }
 
   @plays(role[Visitable.Visit])

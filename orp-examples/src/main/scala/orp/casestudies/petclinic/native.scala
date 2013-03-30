@@ -68,7 +68,7 @@ object native {
 
   class DoctorsVisit() extends Visit {
     val date = new Date()
-    val description = "Doctor's Visit on " + date
+    val description = s"Doctor's Visit on $date"
   }
 
   class OwnersVisit(val date: Date, val description: String) extends Visit {
