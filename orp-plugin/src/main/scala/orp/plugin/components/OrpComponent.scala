@@ -68,8 +68,8 @@ private[components] trait OrpComponent extends PluginComponent with Transform wi
           try {
             transformTree(tree)
           } catch {
-            case x =>
-              logThrowable(x)
+            case x: Throwable =>
+              reportThrowable(x)
               throw x
           }
         }
