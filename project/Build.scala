@@ -15,18 +15,21 @@
  */
 import sbt._
 import Keys._
+import sbtassembly.Plugin._
 
 /**
- * SBT BuildSettings.
+ * SBT {@link Build} definition.
  *
  * @author Simon Olofsson {@literal simon@olofsson.de}
  */
-object BuildSettings {
+object OrpBuild extends Build {
+
   val buildOrganization = "orp"
-  val buildScalaVersion = "2.10.1"
+  val buildScalaMajorVersion = "2.10"
+  val buildScalaVersion = s"$buildScalaMajorVersion.1"
   val buildVersion = "1.0"
 
-  val buildSettings = Defaults.defaultSettings ++ Seq(
+  override lazy val settings = super.settings ++ Seq(
     organization := buildOrganization,
     scalaVersion := buildScalaVersion,
     version := buildVersion,
@@ -36,29 +39,7 @@ object BuildSettings {
     }
   )
 
-}
-
-/**
- * SBT Dependencies.
- *
- * @author Simon Olofsson {@literal simon@olofsson.de}
- */
-object Dependencies {
-
-  import BuildSettings._
-
   val scalacompiler = "org.scala-lang" % "scala-compiler" % buildScalaVersion
-}
-
-/**
- * SBT {@link Build} definition.
- *
- * @author Simon Olofsson {@literal simon@olofsson.de}
- */
-object OrpBuild extends Build {
-
-  import BuildSettings._
-  import Dependencies._
 
   // The main project
   lazy val orp = Project(
@@ -78,8 +59,10 @@ object OrpBuild extends Build {
   lazy val plugin = Project(
     "orp-plugin",
     file("orp-plugin"),
-    settings = buildSettings ++ Seq(libraryDependencies := Seq(scalacompiler))
-  ) dependsOn (framework) settings (sbtassembly.Plugin.assemblySettings: _*)
+    settings = buildSettings ++
+			Seq(libraryDependencies := Seq(scalacompiler)) ++
+			assemblySettings
+		) dependsOn(framework)
 
   // The examples
   lazy val examples = Project(
@@ -89,7 +72,7 @@ object OrpBuild extends Build {
       autoCompilerPlugins := true,
       scalacOptions ++= Seq(
         "-Xpluginsdir",
-        file("orp-plugin").getAbsolutePath + "/target/",
+        file("orp-plugin").getAbsolutePath + s"/target/scala-$buildScalaMajorVersion",
         "-Xplugin-require:orp",
         "-Ylog:orp"
       )
