@@ -24,7 +24,7 @@ import java.text.SimpleDateFormat
 /**
  * Example Queries for the PetClinic.
  *
- * @author Simon Olofsson {@literal <simon@olofsson.de>}
+ * @author Simon Olofsson
  */
 object Clinic extends App {
 

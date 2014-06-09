@@ -21,7 +21,7 @@ import orp.api.{relationship, role, One}
 /**
  * An {@link OrpComponent} for {@link relationship} transformations.
  *
- * @author Simon Olofsson {@literal <simon@olofsson.de>}
+ * @author Simon Olofsson
  */
 class OrpComponentRelationship(val global: Global) extends OrpComponent {
 

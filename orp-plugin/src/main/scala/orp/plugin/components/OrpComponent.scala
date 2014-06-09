@@ -24,7 +24,7 @@ import java.beans.Introspector
 /**
  * {@link PluginComponent} for ORP.
  *
- * @author Simon Olofsson {@literal <simon@olofsson.de>}
+ * @author Simon Olofsson
  */
 private[components] trait OrpComponent extends PluginComponent with Transform with TreeDSL {
 

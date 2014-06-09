@@ -20,7 +20,7 @@ import sbtassembly.Plugin._
 /**
  * SBT {@link Build} definition.
  *
- * @author Simon Olofsson {@literal simon@olofsson.de}
+ * @author Simon Olofsson
  */
 object OrpBuild extends Build {
 

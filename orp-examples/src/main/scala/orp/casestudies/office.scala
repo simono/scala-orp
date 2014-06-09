@@ -20,7 +20,7 @@ import orp.api.{plays, role, relationship}
 /**
  * Office Example.
  *
- * @author Simon Olofsson {@literal <simon@olofsson.de>}
+ * @author Simon Olofsson
  */
 @relationship
 object PlaceInventory {

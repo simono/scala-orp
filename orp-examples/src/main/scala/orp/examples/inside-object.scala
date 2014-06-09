@@ -20,7 +20,7 @@ import orp.api._
 /**
  * A Relationship inside an object.
  *
- * @author Simon Olofsson {@literal <simon@olofsson.de>}
+ * @author Simon Olofsson
  */
 object container {
 

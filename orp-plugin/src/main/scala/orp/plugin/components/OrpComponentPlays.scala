@@ -21,7 +21,7 @@ import orp.api.plays
 /**
  * An {@link OrpComponent} for {@link plays} transformations.
  *
- * @author Simon Olofsson {@literal <simon@olofsson.de>}
+ * @author Simon Olofsson
  */
 class OrpComponentPlays(val global: Global) extends OrpComponent {
 

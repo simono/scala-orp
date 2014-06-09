@@ -20,7 +20,7 @@ import orp._
 /**
  * Example Queries for the DomainOrder.
  *
- * @author Simon Olofsson {@literal <simon@olofsson.de>}
+ * @author Simon Olofsson
  */
 object Order extends App {
 

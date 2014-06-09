@@ -20,7 +20,7 @@ import collection.mutable.ListBuffer
 /**
  * Native Implementation of the DomainOrder.
  *
- * @author Simon Olofsson {@literal <simon@olofsson.de>}
+ * @author Simon Olofsson
  */
 object native {
 

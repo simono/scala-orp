@@ -21,7 +21,7 @@ import reflect.{ClassTag, classTag}
 /**
  * Annotations for the ORP framework.
  *
- * @author Simon Olofsson {@literal <simon@olofsson.de>}
+ * @author Simon Olofsson
  */
 object api extends Enumeration {
 

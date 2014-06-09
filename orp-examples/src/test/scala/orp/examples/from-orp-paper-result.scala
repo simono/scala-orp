@@ -21,7 +21,7 @@ import orp.api.RoleTrait
 /**
  * Examples taken from the ORP paper.
  *
- * @author Simon Olofsson {@literal <simon@olofsson.de>}
+ * @author Simon Olofsson
  */
 abstract class ACaggregation {
 

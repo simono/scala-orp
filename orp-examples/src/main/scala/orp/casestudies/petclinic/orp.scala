@@ -21,7 +21,7 @@ import java.util.Date
 /**
  * ORP Implementation of the PetClinic.
  *
- * @author Simon Olofsson {@literal <simon@olofsson.de>}
+ * @author Simon Olofsson
  */
 object orp {
 

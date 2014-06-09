@@ -20,7 +20,7 @@ import orp.api._
 /**
  * Multiplicity.
  *
- * @author Simon Olofsson {@literal <simon@olofsson.de>}
+ * @author Simon Olofsson
  */
 object multiplicity {
 

@@ -18,7 +18,7 @@ package orp.examples
 /**
  * Run tests.
  *
- * @author Simon Olofsson {@literal <simon@olofsson.de>}
+ * @author Simon Olofsson
  */
 object RunTests extends App {
 

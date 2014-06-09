@@ -20,7 +20,7 @@ import orp.api._
 /**
  * Examples taken from the ORP paper.
  *
- * @author Simon Olofsson {@literal <simon@olofsson.de>}
+ * @author Simon Olofsson
  */
 @relationship
 object aggregation {

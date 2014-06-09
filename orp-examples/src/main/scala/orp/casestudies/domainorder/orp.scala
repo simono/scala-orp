@@ -20,7 +20,7 @@ import _root_.orp.api._
 /**
  * ORP Implementation of the DomainOrder.
  *
- * @author Simon Olofsson {@literal <simon@olofsson.de>}
+ * @author Simon Olofsson
  */
 object orp {
 

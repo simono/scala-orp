@@ -18,7 +18,7 @@ package orp.examples
 /**
  * Some simple tests.
  *
- * @author Simon Olofsson {@literal <simon@olofsson.de>}
+ * @author Simon Olofsson
  */
 object multipleAnnotationsTest {
 

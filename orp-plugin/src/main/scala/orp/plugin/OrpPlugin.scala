@@ -22,7 +22,7 @@ import tools.nsc.plugins.Plugin
 /**
  * A Scala Compiler {@link Plugin} for ORP.
  *
- * @author Simon Olofsson {@literal <simon@olofsson.de>}
+ * @author Simon Olofsson
  */
 class OrpPlugin(val global: Global) extends Plugin {
 

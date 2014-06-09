@@ -21,7 +21,7 @@ import java.util.Date
 /**
  * Native Implementation of the PetClinic.
  *
- * @author Simon Olofsson {@literal <simon@olofsson.de>}
+ * @author Simon Olofsson
  */
 object native {
 
