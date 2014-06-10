@@ -4,20 +4,19 @@
 
 ## What you need
 
-* a recent version of Java
+* Java 7 or 8
 * [sbt](http://www.scala-sbt.org) as build tool
 
 ## IDE setup
 
-* IntelliJ IDEA:
-  * install the
-    [Scala](http://confluence.jetbrains.net/display/SCA/Scala+Plugin+for+IntelliJ+IDEA)
-    and [SBT](https://github.com/orfjackal/idea-sbt-plugin/wiki) plugins and
-    configure them
-  * select _intellij/orp.ipr_ in the _Open Project_ dialog
 * Eclipse:
-  * install the [Scala](http://scala-ide.org) and
-    [SBT](https://github.com/scalastuff/esbt) plugins
+  * install the [Scala IDE](http://scala-ide.org)
+  * run `sbt eclipse`
+  * import the Project
+* IntelliJ IDEA:
+  * install the [Scala
+    plugin](http://confluence.jetbrains.net/display/SCA/Scala+Plugin+for+IntelliJ+IDEA)
+  * open the Project
 
 ## Running the plugin
 
