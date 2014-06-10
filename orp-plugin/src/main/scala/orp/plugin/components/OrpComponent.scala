@@ -283,7 +283,7 @@ private[components] trait OrpComponent extends PluginComponent with Transform wi
 
       def actionMultiDef(counterRoleName: String)(action: String) = {
 
-        val counterRoleNameDecapitalized = name.plural(name.decapitalize(counterRoleName))
+        val counterRoleNameDecapitalized = name.plural(name.decapitalize(counterRoleName).toString)
 
         val vparamss = List(
           List(
@@ -296,7 +296,7 @@ private[components] trait OrpComponent extends PluginComponent with Transform wi
 
         val rhs = fn(Ident(counterRoleNameDecapitalized), nme.foreach, Ident(actionDef))
 
-        DefDef(NoMods, name.plural(actionDef), Nil, vparamss, UNIT, rhs)
+        DefDef(NoMods, name.plural(actionDef.toString), Nil, vparamss, UNIT, rhs)
       }
 
       def replaceDef(counterRoleName: String)(multi: Boolean) = {
@@ -324,7 +324,7 @@ private[components] trait OrpComponent extends PluginComponent with Transform wi
       }
 
       def clearDef(counterRoleName: String) = {
-        val rhs = fn(thiz, name.plural(name.actionDef(RemovePrefix, counterRoleName)), Ident(name.getDef(counterRoleName)))
+        val rhs = fn(thiz, name.actionDefPlural(RemovePrefix, counterRoleName), Ident(name.getDef(counterRoleName)))
         DefDef(NoMods, name.clearDef(counterRoleName), Nil, List(Nil), UNIT, rhs)
       }
 
@@ -406,17 +406,17 @@ private[components] trait OrpComponent extends PluginComponent with Transform wi
         val counterClassNameDecapitalized = name.decapitalize(counterClassName)
         val mods = overrideIfNeeded(counterClassName, counterRoleName)
         DefDef(mods, name.actionDef(action, counterClassName), Nil,
-          List(List(ValDef(NoMods, counterClassNameDecapitalized, Ident(stringToTypeName(counterClassName)), EmptyTree))),
+          List(List(ValDef(NoMods, counterClassNameDecapitalized, Ident(newTypeNameCached(counterClassName)), EmptyTree))),
           UNIT, fn(create.zuper, name.actionDef(action, counterRoleName), Ident(counterClassNameDecapitalized)))
       }
 
       def actionMultiWrapperDef(counterClassName: String, counterRoleName: String)(action: String) = {
-        val counterClassNameDecapitalized = name.plural(name.decapitalize(counterClassName))
+        val counterClassNameDecapitalized = name.plural(name.decapitalize(counterClassName).toString)
         val mods = overrideIfNeeded(counterClassName, counterRoleName)
-        DefDef(mods, name.plural(name.actionDef(action, counterClassName)), Nil,
+        DefDef(mods, name.actionDefPlural(action, counterClassName), Nil,
           List(List(ValDef(NoMods, counterClassNameDecapitalized,
-            AppliedTypeTree(Ident(Traversable), List(Ident(stringToTypeName(counterClassName)))), EmptyTree))),
-          UNIT, fn(create.zuper, name.plural(name.actionDef(action, counterRoleName)), Ident(counterClassNameDecapitalized)))
+            AppliedTypeTree(Ident(Traversable), List(Ident(newTypeNameCached(counterClassName)))), EmptyTree))),
+          UNIT, fn(create.zuper, name.actionDefPlural(action, counterRoleName), Ident(counterClassNameDecapitalized)))
       }
 
       def replaceWrapperDef(counterClassName: String, counterRoleName: String)(multi: Boolean) = {
@@ -425,7 +425,7 @@ private[components] trait OrpComponent extends PluginComponent with Transform wi
         val crn: String = if (multi) name.plural(counterRoleName) else counterRoleName
 
         def createVparam(classifier: String) = {
-          val ccnrs = Ident(stringToTypeName(counterClassName))
+          val ccnrs = Ident(newTypeNameCached(counterClassName))
           val ccnatt = AppliedTypeTree(Ident(Traversable), List(ccnrs))
           val tpt = if (multi) ccnatt else ccnrs
 
@@ -466,35 +466,39 @@ private[components] trait OrpComponent extends PluginComponent with Transform wi
         private val PluralSuffix = "s"
         private val RoleSuffix = "Role"
 
-        def othersVal(name: String): TermName = {
-          decapitalize(name) + PluralSuffix
+        def othersVal(name: String) = {
+          newTermNameCached(decapitalize(name) + PluralSuffix)
         }
 
-        def actionDef(actionName: String, name: String): TermName = {
-          actionName + capitalize(name)
+        def actionDef(actionName: String, name: String) = {
+          newTermNameCached(actionName + capitalize(name))
         }
 
-        def clearDef(name: String): TermName = {
-          ClearPrefix + capitalize(name) + PluralSuffix
+        def actionDefPlural(actionName: String, name: String) = {
+          newTermNameCached(plural(actionDef(actionName, name).toString))
         }
 
-        def getDef(name: String): TermName = {
-          GetPrefix + capitalize(name) + PluralSuffix
+        def clearDef(name: String) = {
+          newTermNameCached(ClearPrefix + capitalize(name) + PluralSuffix)
         }
 
-        def priActionDef(actionName: String, name: String): TermName = {
-          PriPrefix + capitalize(actionName) + capitalize(name)
+        def getDef(name: String) = {
+          newTermNameCached(GetPrefix + capitalize(name) + PluralSuffix)
         }
 
-        def withRoleSuffix(name: String): TypeName = {
-          name + RoleSuffix
+        def priActionDef(actionName: String, name: String) = {
+          newTermNameCached(PriPrefix + capitalize(actionName) + capitalize(name))
+        }
+
+        def withRoleSuffix(name: String) = {
+          newTypeNameCached(name + RoleSuffix)
         }
 
         def decapitalize(name: String) = {
-          Introspector.decapitalize(name)
+          newTermNameCached(Introspector.decapitalize(name))
         }
 
-        def plural(name: String): TermName = {
+        def plural(name: String) = {
           name + PluralSuffix
         }
 
