@@ -24,10 +24,10 @@ To run the plugin just execute: `bin/run-plugin.sh`
 
 ## Directory layout
 
-The main ORP project is aggregating three modules (_orp-framework_,
-_orp-plugin_ and _orp-examples_). The build settings, dependencies and build
-instructions are described in _project/Build.scala_. _project/plugins.sbt_ and _project/assembly.sbt_
-describe the required plugins.
+The main ORP project is aggregating three modules (_orp-framework_, _orp-plugin_
+and _orp-examples_). The build settings, dependencies and build instructions are
+described in _project/Build.scala_. _project/plugins.sbt_ and
+_project/assembly.sbt_ describe the required plugins.
 
 _bin_: contains executables and scripts
 
@@ -43,6 +43,7 @@ _target_ folders: these folders are excluded from version control and contain
 class-files and jars that sbt creates
 
 # License
+
 This software is licensed under the Apache 2 license, quoted below.
 
 ```
