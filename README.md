@@ -26,8 +26,8 @@ To run the plugin just execute: `bin/run-plugin.sh`
 
 The main ORP project is aggregating three modules (_orp-framework_,
 _orp-plugin_ and _orp-examples_). The build settings, dependencies and build
-instructions are described in _project/Build.scala_. _project/plugins.sbt_
-describes the required plugins.
+instructions are described in _project/Build.scala_. _project/plugins.sbt_ and _project/assembly.sbt_
+describe the required plugins.
 
 _bin_: contains executables and scripts
 
