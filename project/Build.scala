@@ -25,7 +25,7 @@ import sbtassembly.Plugin._
 object OrpBuild extends Build {
 
   val buildOrganization = "orp"
-  val buildScalaMajorVersion = "2.10"
+  val buildScalaMajorVersion = "2.11"
   val buildScalaVersion = s"$buildScalaMajorVersion.1"
   val buildVersion = "1.0"
 
