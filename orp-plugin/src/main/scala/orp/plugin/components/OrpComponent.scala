@@ -199,6 +199,8 @@ private[components] trait OrpComponent extends PluginComponent with Transform wi
       private val api: TermName = "api"
       private val require: TermName = "require"
       private val size: TermName = "size"
+      private val _assert: TermName = "assert"
+      private val assume: TermName = "assume"
 
       private def emptyTypeName = nme.EMPTY.toTypeName
 
@@ -344,12 +346,12 @@ private[components] trait OrpComponent extends PluginComponent with Transform wi
           fn(Ident(name.othersVal(counterRoleName)), nme.foreach,
             Ident(name.actionDef(RemovePrefix, counterRoleName))),
           // Assert it's empty
-          fn(Ident(nme.Predef), nme.assert_,
+          fn(Ident(nme.Predef), _assert,
             Ident(name.othersVal(counterRoleName)) DOT nme.isEmpty),
           // Add the new One
           rhs,
           // Assume that there's One
-          fn(Ident(nme.Predef), nme.assume_,
+          fn(Ident(nme.Predef), assume,
             fn(Ident(name.othersVal(counterRoleName)) DOT size, nme.EQ, LIT(1)))
         )
       }
